@@ -1,57 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { auth } from './firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import Auth from './components/Auth';
-import PropertyManager from './components/PropertyManager';
 import VoiceTransaction from './components/VoiceTransaction';
 import BankLink from './components/BankLink';
-import Backup from './components/Backup';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { FaHome, FaChartLine, FaWallet, FaCog, FaBell, FaBackup, FaExclamationTriangle } from 'react-icons/fa';
 import Dashboard from './components/Dashboard';
-import Budget from './components/Budget';
 import Transactions from './components/Transactions';
-import Settings from './components/Settings';
-import BudgetWarnings from './components/BudgetWarnings';
 import BudgetTest from './components/BudgetTest';
 
-const AppContainer = styled.div`
-  min-height: 100vh;
-  background-color: #f5f5f5;
+const Container = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
 `;
 
 const Nav = styled.nav`
-  background-color: #2196F3;
+  background-color: #fff;
   padding: 1rem;
-  color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
 `;
 
 const NavList = styled.ul`
-  display: flex;
   list-style: none;
-  margin: 0;
   padding: 0;
+  margin: 0;
+  display: flex;
   gap: 1rem;
 `;
 
 const NavItem = styled.li`
   a {
-    color: white;
+    color: #333;
     text-decoration: none;
     padding: 0.5rem 1rem;
-    border-radius: 5px;
+    border-radius: 4px;
     transition: background-color 0.2s;
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: #f0f0f0;
     }
   }
-`;
-
-const Content = styled.main`
-  padding: 2rem;
 `;
 
 const PrivateRoute = ({ children }) => {
@@ -78,64 +71,27 @@ const App = () => {
   return (
     <AuthProvider>
       <Router>
-        <AppContent />
+        <Container>
+          <Nav>
+            <NavList>
+              <NavItem><Link to="/">Dashboard</Link></NavItem>
+              <NavItem><Link to="/bank-link">Bank Link</Link></NavItem>
+              <NavItem><Link to="/transactions">Transactions</Link></NavItem>
+              <NavItem><Link to="/voice-transaction">Voice Entry</Link></NavItem>
+              <NavItem><Link to="/budget-test">Budget Test</Link></NavItem>
+            </NavList>
+          </Nav>
+
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/bank-link" element={<BankLink />} />
+            <Route path="/transactions" element={<Transactions />} />
+            <Route path="/voice-transaction" element={<VoiceTransaction />} />
+            <Route path="/budget-test" element={<BudgetTest />} />
+          </Routes>
+        </Container>
       </Router>
     </AuthProvider>
-  );
-};
-
-const AppContent = () => {
-  const { currentUser } = useAuth();
-
-  if (!currentUser) {
-    return <Auth />;
-  }
-
-  return (
-    <AppContainer>
-      <MainContent>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/budget" element={<Budget />} />
-          <Route path="/transactions" element={<Transactions />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/backup" element={<Backup />} />
-          <Route path="/budget-warnings" element={<BudgetWarnings />} />
-          <Route path="/budget-test" element={<BudgetTest />} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </MainContent>
-      <Nav>
-        <NavLink to="/">
-          <FaHome />
-          <span>Home</span>
-        </NavLink>
-        <NavLink to="/budget">
-          <FaChartLine />
-          <span>Budget</span>
-        </NavLink>
-        <NavLink to="/transactions">
-          <FaWallet />
-          <span>Transactions</span>
-        </NavLink>
-        <NavLink to="/budget-warnings">
-          <FaBell />
-          <span>Warnings</span>
-        </NavLink>
-        <NavLink to="/budget-test">
-          <FaExclamationTriangle />
-          <span>Test</span>
-        </NavLink>
-        <NavLink to="/backup">
-          <FaBackup />
-          <span>Backup</span>
-        </NavLink>
-        <NavLink to="/settings">
-          <FaCog />
-          <span>Settings</span>
-        </NavLink>
-      </Nav>
-    </AppContainer>
   );
 };
 

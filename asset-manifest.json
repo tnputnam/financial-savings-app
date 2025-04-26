@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/financial-savings-app/static/css/main.233b3b67.css",
+    "main.js": "/financial-savings-app/static/js/main.d269c2d7.js",
+    "index.html": "/financial-savings-app/index.html",
+    "main.233b3b67.css.map": "/financial-savings-app/static/css/main.233b3b67.css.map",
+    "main.d269c2d7.js.map": "/financial-savings-app/static/js/main.d269c2d7.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.233b3b67.css",
+    "static/js/main.d269c2d7.js"
+  ]
+}
